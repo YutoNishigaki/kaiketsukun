@@ -1,12 +1,10 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import { Todo } from "../types/todo";
-
-let todos: Todo[] = []; // 仮データ（メモリ上）
 
 export const getTodosController = async (
-  _req: FastifyRequest,
+  req: FastifyRequest,
   reply: FastifyReply
 ) => {
+  const todos = await req.server.prisma.todo.findMany();
   return reply.send(todos);
 };
 
@@ -14,11 +12,10 @@ export const createTodoController = async (
   req: FastifyRequest<{ Body: { title: string } }>,
   reply: FastifyReply
 ) => {
-  const newTodo: Todo = {
-    id: todos.length + 1,
-    title: req.body.title,
-    completed: false,
-  };
-  todos.push(newTodo);
+  const newTodo = await req.server.prisma.todo.create({
+    data: {
+      title: req.body.title,
+    },
+  });
   return reply.code(201).send(newTodo);
 };
