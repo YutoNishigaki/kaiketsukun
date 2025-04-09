@@ -1,2 +1,9 @@
+# Logs
+logs
+npm-debug.log*
+
 node_modules
+*.local
+
 .env
+.env.local
