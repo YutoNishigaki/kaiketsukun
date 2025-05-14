@@ -1,4 +1,4 @@
-name: CICD
+name: CI
 
 on:
   push:
@@ -32,6 +32,9 @@ jobs:
         run: npm run lint
 
       - name: Run Build
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
         run: npm run build
 
       - name: Run Test
