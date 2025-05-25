@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { ROUTING_PATHS } from "@/constants/paths";
 
@@ -13,6 +14,7 @@ export const signUpAction = async (formData: FormData) => {
   const email = formData.get("email")?.toString();
   const password = formData.get("password")?.toString();
   const supabase = await createClient();
+  const origin = (await headers()).get("origin");
 
   if (!email || !password) {
     console.log("メールアドレスまたはパスワードがありません");
@@ -22,6 +24,9 @@ export const signUpAction = async (formData: FormData) => {
   const { error } = await supabase.auth.signUp({
     email,
     password,
+    options: {
+      emailRedirectTo: `${origin}/auth/callback`,
+    },
   });
 
   if (error) {
