@@ -9,17 +9,10 @@ datasource db {
 }
 
 model User {
- id    Int     @id @default(autoincrement())
- email String  @unique
- name  String?
- posts Post[]
-}
+  userId    String   @id @default(dbgenerated()) @db.Uuid @map("user_id")
+  userName  String?  @map("user_name")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-model Post {
- id        Int     @id @default(autoincrement())
- title     String
- content   String?
- published Boolean @default(false)
- author    User    @relation(fields: [authorId], references: [id])
- authorId  Int
+  @@map("user")
 }
