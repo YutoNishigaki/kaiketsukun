@@ -1,14 +1,20 @@
-"use client";
-// TODO: 仮でuse clientをつけているが、のちのちはUIイベントハンドラーはファイルを分けてこのファイル自体はSSRにする
+import { SidebarInset, SidebarProvider } from "@/components/ui";
+import { AppSidebar } from "@/components/layout/sidebar";
+import { SiteHeader } from "@/components/layout/header";
 
-import { Button } from "@/components/ui";
-import { signOutAction } from "@/features/auth/actions";
+import { getAuthenticatedUser } from "@/repositories/user";
 
-export default function Root() {
+const AN_AUTHENTICATED_USER = "名無しのユーザー";
+
+export default async function Root() {
+  const user = await getAuthenticatedUser();
+
   return (
-    <div className="flex flex-col gap-6 max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-      <h1>ダッシュボード</h1>
-      <Button onClick={() => signOutAction()}>サインアウト</Button>
-    </div>
+    <SidebarProvider>
+      <AppSidebar variant="inset" />
+      <SidebarInset>
+        <SiteHeader userName={user?.userName || AN_AUTHENTICATED_USER} />
+      </SidebarInset>
+    </SidebarProvider>
   );
 }
