@@ -2,7 +2,7 @@
 
 import { SubmitButton, Input, Label } from "@/components/ui";
 import Link from "next/link";
-import { signUpAction } from "@/features/auth/actions";
+import { signUp } from "@/repositories/auth";
 import { ROUTING_PATHS } from "@/constants/paths";
 
 export function SignUpForm() {
@@ -22,7 +22,7 @@ export function SignUpForm() {
         <SubmitButton
           className="w-full"
           pendingText="サインアップ中..."
-          formAction={signUpAction}
+          formAction={signUp}
         >
           サインアップ
         </SubmitButton>

@@ -10,7 +10,7 @@ import { ROUTING_PATHS } from "@/constants/paths";
  * @param formData
  * @returns
  */
-export const signUpAction = async (formData: FormData) => {
+export const signUp = async (formData: FormData) => {
   const email = formData.get("email")?.toString();
   const password = formData.get("password")?.toString();
   const supabase = await createClient();
@@ -42,7 +42,7 @@ export const signUpAction = async (formData: FormData) => {
  * @param formData
  * @returns
  */
-export const signInAction = async (formData: FormData) => {
+export const signIn = async (formData: FormData) => {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
   const supabase = await createClient();
@@ -64,7 +64,7 @@ export const signInAction = async (formData: FormData) => {
  * サインアウト処理
  * @returns
  */
-export const signOutAction = async () => {
+export const signOut = async () => {
   const supabase = await createClient();
   await supabase.auth.signOut();
   return redirect(ROUTING_PATHS.auth.signin);
