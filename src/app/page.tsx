@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { ROUTING_PATHS } from "@/constants/paths";
 
-export default async function RootPage() {
+export default function RootPage() {
   redirect(ROUTING_PATHS.dashboard.root);
 }

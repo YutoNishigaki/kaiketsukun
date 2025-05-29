@@ -1,7 +1,5 @@
-import { ProfileForm } from "@/features/user/profile-form.presentational";
+import { ProfileFormContainer } from "@/features/user/profile-form";
 
-export const dynamic = "force-dynamic";
-
-export default async function Dashboard() {
-  return <ProfileForm />;
+export default function Profile() {
+  return <ProfileFormContainer />;
 }
