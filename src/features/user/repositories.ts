@@ -25,6 +25,10 @@ export const fetchUser = async () => {
       },
     });
 
+    if (!user) {
+      throw new Error("ユーザーが見つかりません");
+    }
+
     return user;
   } catch (error) {
     throw new Error("ユーザー情報の取得に失敗しました: " + error);
