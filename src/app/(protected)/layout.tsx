@@ -1,8 +1,8 @@
-import { SidebarInset, SidebarProvider } from "@/components/ui";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/sidebar";
 import { SiteHeader } from "@/components/layout/header";
 
-import { getAuthenticatedUser } from "@/repositories/user";
+import { fetchUser } from "@/features/user/repositories";
 
 const AN_AUTHENTICATED_USER = "名無しのユーザー";
 
@@ -11,7 +11,7 @@ export default async function ProtectedRootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const user = await getAuthenticatedUser();
+  const user = await fetchUser();
 
   return (
     <SidebarProvider>
