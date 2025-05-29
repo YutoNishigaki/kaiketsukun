@@ -9,10 +9,18 @@ export const ROUTING_PATHS = {
     signin: "/auth/sign-in",
     signup: "/auth/sign-up",
   },
+
+  dashboard: {
+    root: "/dashboard",
+  },
+
+  account: {
+    profile: "/account/profile",
+  },
 };
 
 /**
  * @constant
  * @description 認証が必要なルーティングパスを文字列の配列で定義
  */
-export const PROTECTED_PATHS = ["/sample1", "/sample2"];
+export const PROTECTED_PATHS = ["/dashboard", "/account"];

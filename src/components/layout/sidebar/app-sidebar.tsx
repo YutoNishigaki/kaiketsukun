@@ -19,7 +19,7 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: ROUTING_PATHS.dashboard.root,
       icon: LayoutDashboardIcon,
     },
     {
@@ -41,7 +41,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
               <a href={ROUTING_PATHS.root}>
-                <span className="text-base font-semibold">解決くん</span>
+                <span className="text-base font-semibold">KAIKETSUKUN</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>

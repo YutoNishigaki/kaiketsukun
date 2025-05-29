@@ -1,7 +1,7 @@
 "use client";
 
-import { Separator } from "@/components/ui/separator";
-import { SidebarTrigger } from "@/components/ui/sidebar";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import { LogOutIcon, MoreVerticalIcon, UserCircleIcon } from "lucide-react";
 import {
@@ -12,11 +12,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui";
+import { Button, Separator, SidebarTrigger } from "@/components/ui";
 
 import { signOut } from "@/repositories/auth";
+import { ROUTING_PATHS } from "@/constants/paths";
 
 export function SiteHeader(props: { userName: string }) {
+  const currentPath = usePathname();
+
   return (
     <header className="group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 flex h-12 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear justify-between">
       <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
@@ -25,7 +28,7 @@ export function SiteHeader(props: { userName: string }) {
           orientation="vertical"
           className="mx-2 data-[orientation=vertical]:h-4"
         />
-        <h1 className="text-base font-medium">Documents</h1>
+        <h1 className="text-base font-medium">{currentPath}</h1>
       </div>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -54,10 +57,12 @@ export function SiteHeader(props: { userName: string }) {
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            <UserCircleIcon />
-            Account
-          </DropdownMenuItem>
+          <Link href={ROUTING_PATHS.account.profile}>
+            <DropdownMenuItem>
+              <UserCircleIcon />
+              Account
+            </DropdownMenuItem>
+          </Link>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => signOut()}>
             <LogOutIcon />
