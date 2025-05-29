@@ -61,7 +61,7 @@ export function SiteHeader(props: { userName: string }) {
           <Link href={ROUTING_PATHS.account.profile}>
             <DropdownMenuItem>
               <UserCircleIcon />
-              Account
+              Profile
             </DropdownMenuItem>
           </Link>
           <DropdownMenuSeparator />

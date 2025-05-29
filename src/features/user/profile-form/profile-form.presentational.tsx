@@ -14,14 +14,18 @@ import {
 } from "@/components/ui/form";
 import { Input, Button } from "@/components/ui";
 
-import { profileFormSchema } from "./schema";
-import { updateUserProfile } from "./repositories";
+import { profileFormSchema } from "../schema";
+import { updateUserProfile } from "../repositories";
 
-export function ProfileForm() {
+type Props = {
+  username: string;
+};
+
+export function ProfileForm(props: Props) {
   const form = useForm<z.infer<typeof profileFormSchema>>({
     resolver: zodResolver(profileFormSchema),
     defaultValues: {
-      username: "",
+      username: props.username,
     },
   });
 
