@@ -15,7 +15,7 @@ import {
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Button, Separator } from "@/components/ui";
 
-import { signOut } from "@/repositories/auth";
+import { signOut } from "@/features/auth/repositories";
 import { ROUTING_PATHS } from "@/constants/paths";
 
 export function SiteHeader(props: { userName: string }) {

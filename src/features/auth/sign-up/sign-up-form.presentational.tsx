@@ -2,7 +2,7 @@
 
 import { SubmitButton, Input, Label } from "@/components/ui";
 import Link from "next/link";
-import { signUp } from "@/repositories/auth";
+import { signUp } from "@/features/auth/repositories";
 import { ROUTING_PATHS } from "@/constants/paths";
 
 export function SignUpForm() {
