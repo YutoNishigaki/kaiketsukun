@@ -1,3 +1,5 @@
+import { ProfileForm } from "@/features/user/profile-form.presentational";
+
 export default async function Dashboard() {
-  return <h1>プロフィール画面</h1>;
+  return <ProfileForm />;
 }

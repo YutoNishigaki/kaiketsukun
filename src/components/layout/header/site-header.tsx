@@ -12,7 +12,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button, Separator, SidebarTrigger } from "@/components/ui";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import { Button, Separator } from "@/components/ui";
 
 import { signOut } from "@/repositories/auth";
 import { ROUTING_PATHS } from "@/constants/paths";
