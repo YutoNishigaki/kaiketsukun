@@ -10,10 +10,94 @@ datasource db {
 }
 
 model User {
-  userId    String   @id @default(dbgenerated()) @db.Uuid @map("user_id")
-  userName  String?  @map("user_name")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  userId          String   @id @default(dbgenerated()) @db.Uuid @map("user_id")
+  userName        String?  @db.VarChar(50) @map("user_name")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  stocks          Stock[]
+  holdings        Holding[]
+  dividends       DividendHistory[]
+  trades          TradeHistory[]
 
   @@map("user")
+}
+
+model Stock {
+  userId          String       @db.Uuid @map("user_id")
+  stockCode       String       @db.VarChar(20) @map("stock_code")
+  stockName       String       @db.VarChar(100) @map("stock_name")
+  sector          String       @db.VarChar(20)
+  createdAt       DateTime     @default(now()) @map("created_at")
+  updatedAt       DateTime     @updatedAt @map("updated_at")
+
+  holdings        Holding[]
+  dividends       DividendHistory[]
+  trades          TradeHistory[]
+
+  user            User         @relation(fields: [userId], references: [userId])
+
+  @@id([userId, stockCode])
+  @@index([userId])
+
+  @@map("stock")
+}
+
+model Holding {
+  houldingId      String       @id @default(dbgenerated()) @db.Uuid @map("houlding_id")
+  userId          String       @db.Uuid @map("user_id")
+  stockCode       String       @db.VarChar(20) @map("stock_code")
+  currentPrice    Float        @map("current_price")
+  quantity        Int
+  avgPrice        Float        @map("avg_price")
+  expectedDiv     Float        @map("expected_div")
+  dividendMonths  String       @map("dividend_months") // カンマ区切りで複数月を扱う
+  acquiredAt      DateTime     @map("acquired_at")
+  createdAt       DateTime     @default(now()) @map("created_at")
+  updatedAt       DateTime     @updatedAt @map("updated_at")
+
+  user            User         @relation(fields: [userId], references: [userId])
+  stock           Stock        @relation(fields: [userId, stockCode], references: [userId, stockCode])
+
+  @@index([userId])
+  @@index([userId, stockCode])
+
+  @@map("holding")
+}
+
+model DividendHistory {
+  dividendHistoryId  String    @id @default(dbgenerated()) @db.Uuid @map("dividend_history_id")
+  userId          String       @db.Uuid @map("user_id")
+  stockCode       String       @db.VarChar(20) @map("stock_code")
+  receivedAt      DateTime     @map("received_at")
+  amount          Float
+  createdAt       DateTime     @default(now()) @map("created_at")
+  updatedAt       DateTime     @updatedAt @map("updated_at")
+
+  user            User         @relation(fields: [userId], references: [userId])
+  stock           Stock        @relation(fields: [userId, stockCode], references: [userId, stockCode])
+
+  @@index([userId])
+  @@index([userId, stockCode])
+
+  @@map("dividend_history")
+}
+
+model TradeHistory {
+  tradeHistoryId  String       @id @default(dbgenerated()) @db.Uuid @map("trade_history_id")
+  userId          String       @db.Uuid @map("user_id")
+  stockCode       String       @db.VarChar(20) @map("stock_code")
+  acquiredAt      DateTime     @map("acquired_at")
+  tradedAt        DateTime     @map("traded_at")
+  realizedGain    Float        @map("realized_gain")
+  createdAt       DateTime     @default(now()) @map("created_at")
+  updatedAt       DateTime     @updatedAt @map("updated_at")
+
+  user            User         @relation(fields: [userId], references: [userId])
+  stock           Stock        @relation(fields: [userId, stockCode], references: [userId, stockCode])
+
+  @@index([userId])
+  @@index([userId, stockCode])
+
+  @@map("trade_history")
 }
