@@ -1,9 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { LayoutDashboardIcon, ChartCandlestickIcon } from "lucide-react";
 
-import { NavMain } from "./nav-main";
+import { ContentGroup } from "./content-group";
 import {
   Sidebar,
   SidebarContent,
@@ -14,21 +13,7 @@ import {
 } from "@/components/ui/sidebar";
 
 import { ROUTING_PATHS } from "@/constants/paths";
-
-const data = {
-  navMain: [
-    {
-      title: "Dashboard",
-      url: ROUTING_PATHS.dashboard.root,
-      icon: LayoutDashboardIcon,
-    },
-    {
-      title: "Stock",
-      url: "#",
-      icon: ChartCandlestickIcon,
-    },
-  ],
-};
+import { NAV_HOME, NAV_STOCK } from "@/constants/sidebar";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -48,7 +33,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <ContentGroup {...NAV_HOME} />
+        <ContentGroup {...NAV_STOCK} />
       </SidebarContent>
     </Sidebar>
   );
