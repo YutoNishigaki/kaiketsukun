@@ -6,14 +6,17 @@ import { type LucideIcon } from "lucide-react";
 import {
   SidebarGroup,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
-export function NavMain({
+export function ContentGroup({
+  groupLabel = "",
   items,
 }: {
+  groupLabel?: string;
   items: {
     title: string;
     url: string;
@@ -22,6 +25,7 @@ export function NavMain({
 }) {
   return (
     <SidebarGroup>
+      {groupLabel && <SidebarGroupLabel>{groupLabel}</SidebarGroupLabel>}
       <SidebarGroupContent className="flex flex-col gap-2">
         <SidebarMenu>
           {items.map((item) => (
