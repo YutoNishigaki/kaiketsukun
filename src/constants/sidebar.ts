@@ -23,22 +23,22 @@ export const NAV_STOCK = {
   items: [
     {
       title: "Stock",
-      url: "#",
+      url: ROUTING_PATHS.stock.root,
       icon: ChartCandlestickIcon,
     },
     {
       title: "Holding",
-      url: "#",
+      url: ROUTING_PATHS.stock.holding,
       icon: ReceiptJapaneseYenIcon,
     },
     {
       title: "DividendHistory",
-      url: "#",
+      url: ROUTING_PATHS.stock.dividendHistory,
       icon: HistoryIcon,
     },
     {
       title: "TradeHistory",
-      url: "#",
+      url: ROUTING_PATHS.stock.tradeHistory,
       icon: HistoryIcon,
     },
   ],
