@@ -1,4 +1,4 @@
-import { StockListContainer } from "@/features/stock/stock-list";
+import { StockListContainer } from "@/features/stock/list";
 
 export const dynamic = "force-dynamic";
 
