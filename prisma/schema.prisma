@@ -24,6 +24,7 @@ model User {
 }
 
 model Stock {
+  stockId         String       @id @default(dbgenerated()) @db.Uuid @map("stock_id")
   userId          String       @db.Uuid @map("user_id")
   stockCode       String       @db.VarChar(20) @map("stock_code")
   stockName       String       @db.VarChar(100) @map("stock_name")
@@ -37,8 +38,9 @@ model Stock {
 
   user            User         @relation(fields: [userId], references: [userId])
 
-  @@id([userId, stockCode])
+  @@unique([userId, stockCode])
   @@index([userId])
+  @@index([userId, stockCode])
 
   @@map("stock")
 }

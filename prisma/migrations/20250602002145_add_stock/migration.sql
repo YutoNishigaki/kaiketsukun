@@ -9,6 +9,7 @@ ALTER TABLE "user" ALTER COLUMN "user_name" SET DATA TYPE VARCHAR(50);
 
 -- CreateTable
 CREATE TABLE "stock" (
+    "stock_id" UUID NOT NULL,
     "user_id" UUID NOT NULL,
     "stock_code" VARCHAR(20) NOT NULL,
     "stock_name" VARCHAR(100) NOT NULL,
@@ -16,7 +17,7 @@ CREATE TABLE "stock" (
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "stock_pkey" PRIMARY KEY ("user_id","stock_code")
+    CONSTRAINT "stock_pkey" PRIMARY KEY ("stock_id")
 );
 
 -- CreateTable
@@ -65,6 +66,12 @@ CREATE TABLE "trade_history" (
 
 -- CreateIndex
 CREATE INDEX "stock_user_id_idx" ON "stock"("user_id");
+
+-- CreateIndex
+CREATE INDEX "stock_user_id_stock_code_idx" ON "stock"("user_id", "stock_code");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "stock_user_id_stock_code_key" ON "stock"("user_id", "stock_code");
 
 -- CreateIndex
 CREATE INDEX "holding_user_id_idx" ON "holding"("user_id");

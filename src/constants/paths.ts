@@ -14,6 +14,13 @@ export const ROUTING_PATHS = {
     root: "/dashboard",
   },
 
+  stock: {
+    root: "/stock",
+    holding: "/stock/hold",
+    dividendHistory: "/stock/div-history",
+    tradeHistory: "/stock/trade-history",
+  },
+
   account: {
     profile: "/account/profile",
   },
@@ -23,4 +30,4 @@ export const ROUTING_PATHS = {
  * @constant
  * @description 認証が必要なルーティングパスを文字列の配列で定義
  */
-export const PROTECTED_PATHS = ["/dashboard", "/account"];
+export const PROTECTED_PATHS = ["/dashboard", "/account", "/stock"];
