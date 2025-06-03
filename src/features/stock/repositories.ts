@@ -61,3 +61,57 @@ export const createStock = async (values: StockForm) => {
     throw new Error("銘柄の登録に失敗しました: " + error);
   }
 };
+
+/**
+ * IDに対応する銘柄の詳細情報を取得する
+ * @returns 銘柄情報の詳細
+ */
+export const fetchStockById = async (stockId: string) => {
+  try {
+    const stock = await prisma.stock.findUnique({
+      select: {
+        stockCode: true,
+        stockName: true,
+        sector: true,
+      },
+      where: {
+        stockId,
+      },
+    });
+
+    if (!stock) {
+      throw new Error("銘柄が見つかりません");
+    }
+
+    return stock;
+  } catch (error) {
+    throw new Error("銘柄情報の取得に失敗しました: " + error);
+  }
+};
+
+/**
+ * IDに対応する銘柄を更新する
+ * @param stockId 銘柄ID
+ * @param stockCode 銘柄コード
+ * @param stockName 銘柄名
+ * @param sector 業種
+ */
+export const updateStock = async (stockId: string, values: StockForm) => {
+  try {
+    await prisma.stock.update({
+      where: {
+        stockId,
+      },
+      data: {
+        stockCode: values.stockCode,
+        stockName: values.stockName,
+        sector: values.sector,
+      },
+    });
+
+    // 表示を更新するためにキャッシュを再検証
+    revalidatePath("/stock");
+  } catch (error) {
+    throw new Error("銘柄の更新に失敗しました: " + error);
+  }
+};
