@@ -16,6 +16,14 @@ export const ROUTING_PATHS = {
 
   stock: {
     root: "/stock",
+
+    stock: {
+      root: "/stock",
+      new: "/stock/new",
+      edit: (id: string) => `/stock/stock/${id}/edit`,
+      detail: (id: string) => `/stock/stock/${id}`,
+    },
+
     holding: "/stock/hold",
     dividendHistory: "/stock/div-history",
     tradeHistory: "/stock/trade-history",

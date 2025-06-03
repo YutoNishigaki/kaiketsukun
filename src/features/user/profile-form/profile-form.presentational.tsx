@@ -16,6 +16,7 @@ import { Input, Button } from "@/components/ui";
 
 import { profileFormSchema } from "../schema";
 import { updateUserProfile } from "../repositories";
+import { Card, CardContent } from "@/components/ui/card";
 
 type Props = {
   username: string;
@@ -30,26 +31,35 @@ export function ProfileForm(props: Props) {
   });
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(updateUserProfile)}
-        className="space-y-8"
-      >
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>アカウント名</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">更新</Button>
-      </form>
-    </Form>
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold">プロフィール編集</h1>
+      </div>
+      <Card className="max-w-2xl mx-auto">
+        <CardContent>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(updateUserProfile)}
+              className="space-y-8"
+            >
+              <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>アカウント名</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit">更新</Button>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

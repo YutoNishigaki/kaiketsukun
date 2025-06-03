@@ -4,7 +4,7 @@ export const dynamic = "force-dynamic";
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import StockForm from "@/components/stock-form";
+import StockForm from "@/features/stock/stock-form.shared";
 import { getStockById, type Stock } from "@/store/stock";
 
 export default function EditStockPage() {
