@@ -31,7 +31,7 @@ const createEnv = () => {
   ${Object.entries(parsedEnv.error.flatten().fieldErrors)
     .map(([k, v]) => `- ${k}: ${v}`)
     .join("\n")}
-  `
+  `,
     );
   }
 

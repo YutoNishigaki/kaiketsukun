@@ -133,13 +133,13 @@ export function StockList(props: Props) {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-start">
+      <div className="flex items-start justify-between">
         <div>
           <h1 className="text-2xl font-bold">銘柄管理</h1>
         </div>
         <Link href={ROUTING_PATHS.stock.stock.new}>
           <Button>
-            <Plus className="h-4 w-4 mr-2" />
+            <Plus className="mr-2 h-4 w-4" />
             新規登録
           </Button>
         </Link>
@@ -173,7 +173,7 @@ export function StockList(props: Props) {
       </div> */}
 
       {/* データテーブル */}
-      <div className="border rounded-lg">
+      <div className="rounded-lg border">
         <Table>
           <TableHeader>
             <TableRow>

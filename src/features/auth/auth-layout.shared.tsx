@@ -9,7 +9,7 @@ export type AuthLayoutProps = {
 
 export function AuthLayout({ title, formContent }: AuthLayoutProps) {
   return (
-    <Card className="min-w-sm min-h-[480px]">
+    <Card className="min-h-[480px] min-w-sm">
       <CardHeader className="text-center">
         <CardTitle className="text-xl">{title}</CardTitle>
       </CardHeader>

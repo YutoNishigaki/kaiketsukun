@@ -41,7 +41,7 @@ export const fetchUser = async () => {
  * @returns
  */
 export const updateUserProfile = async (
-  values: z.infer<typeof profileFormSchema>
+  values: z.infer<typeof profileFormSchema>,
 ) => {
   try {
     const userId = await getAuthenticatedUser();

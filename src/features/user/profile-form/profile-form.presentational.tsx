@@ -35,7 +35,7 @@ export function ProfileForm(props: Props) {
       <div>
         <h1 className="text-2xl font-bold">プロフィール編集</h1>
       </div>
-      <Card className="max-w-2xl mx-auto">
+      <Card className="mx-auto max-w-2xl">
         <CardContent>
           <Form {...form}>
             <form
