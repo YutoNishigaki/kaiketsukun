@@ -26,6 +26,7 @@ import {
 import { toast } from "sonner";
 import { ArrowUpDown, Plus, Edit, Trash2, Eye } from "lucide-react";
 import { getStocks, deleteStock, type Stock } from "@/store/stock";
+import { ROUTING_PATHS } from "@/constants/paths";
 
 type SortField =
   | "code"
@@ -136,7 +137,7 @@ export function StockList(props: Props) {
         <div>
           <h1 className="text-2xl font-bold">銘柄管理</h1>
         </div>
-        <Link href="/stock/new">
+        <Link href={ROUTING_PATHS.stock.stock.new}>
           <Button>
             <Plus className="h-4 w-4 mr-2" />
             新規登録

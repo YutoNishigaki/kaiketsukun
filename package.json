@@ -8,7 +8,6 @@
     "start": "next start",
     "lint": "next lint",
     "test": "echo \"No tests yet!\"",
-    "db:start": "supabase start",
     "db:prepare": "prisma generate && prisma migrate dev"
   },
   "dependencies": {
