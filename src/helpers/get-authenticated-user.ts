@@ -17,7 +17,7 @@ export const getAuthenticatedUser = async () => {
     if (authenticatedUser.error) {
       throw new Error(
         "認証済みユーザーの取得に失敗しました: " +
-          authenticatedUser.error.message
+          authenticatedUser.error.message,
       );
     }
 

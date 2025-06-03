@@ -124,7 +124,7 @@ export function saveStocks(stocks: Stock[]): void {
 
 // 新しい銘柄を追加
 export function addStock(
-  stockData: Omit<Stock, "id" | "createdAt" | "updatedAt">
+  stockData: Omit<Stock, "id" | "createdAt" | "updatedAt">,
 ): Stock {
   const stocks = getStocks();
   const newStock: Stock = {
@@ -142,7 +142,7 @@ export function addStock(
 // 銘柄を更新
 export function updateStock(
   id: string,
-  stockData: Partial<Omit<Stock, "id" | "createdAt" | "updatedAt">>
+  stockData: Partial<Omit<Stock, "id" | "createdAt" | "updatedAt">>,
 ): Stock | null {
   const stocks = getStocks();
   const index = stocks.findIndex((stock) => stock.id === id);

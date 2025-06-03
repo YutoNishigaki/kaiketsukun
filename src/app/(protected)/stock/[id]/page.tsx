@@ -82,12 +82,12 @@ export default function StockDetailPage() {
       <div className="space-y-6">
         <div className="text-center">
           <h1 className="text-2xl font-bold">銘柄が見つかりません</h1>
-          <p className="text-gray-600 mt-2">
+          <p className="mt-2 text-gray-600">
             指定された銘柄は存在しないか、削除されています。
           </p>
           <Link href="/stock">
             <Button className="mt-4">
-              <ArrowLeft className="h-4 w-4 mr-2" />
+              <ArrowLeft className="mr-2 h-4 w-4" />
               一覧に戻る
             </Button>
           </Link>
@@ -104,7 +104,7 @@ export default function StockDetailPage() {
         <div className="flex items-center gap-4">
           <Link href="/stock">
             <Button variant="outline" size="sm">
-              <ArrowLeft className="h-4 w-4 mr-2" />
+              <ArrowLeft className="mr-2 h-4 w-4" />
               一覧に戻る
             </Button>
           </Link>
@@ -116,14 +116,14 @@ export default function StockDetailPage() {
         <div className="flex gap-2">
           <Link href={`/stock/${stock.id}/edit`}>
             <Button variant="outline">
-              <Edit className="h-4 w-4 mr-2" />
+              <Edit className="mr-2 h-4 w-4" />
               編集
             </Button>
           </Link>
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button variant="outline">
-                <Trash2 className="h-4 w-4 mr-2" />
+                <Trash2 className="mr-2 h-4 w-4" />
                 削除
               </Button>
             </AlertDialogTrigger>
@@ -149,7 +149,7 @@ export default function StockDetailPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle>価格情報</CardTitle>
@@ -157,7 +157,7 @@ export default function StockDetailPage() {
           <CardContent className="space-y-4">
             <div>
               <p className="text-sm text-gray-600">現在価格</p>
-              <p className="text-3xl font-bold font-mono">
+              <p className="font-mono text-3xl font-bold">
                 ¥{formatNumber(stock.price)}
               </p>
             </div>
@@ -166,7 +166,7 @@ export default function StockDetailPage() {
               <div>
                 <p className="text-sm text-gray-600">前日比</p>
                 <p
-                  className={`text-lg font-mono ${changeData.isPositive ? "text-red-600" : "text-blue-600"}`}
+                  className={`font-mono text-lg ${changeData.isPositive ? "text-red-600" : "text-blue-600"}`}
                 >
                   {changeData.change}
                 </p>
@@ -174,7 +174,7 @@ export default function StockDetailPage() {
               <div>
                 <p className="text-sm text-gray-600">騰落率</p>
                 <p
-                  className={`text-lg font-mono ${changeData.isPositive ? "text-red-600" : "text-blue-600"}`}
+                  className={`font-mono text-lg ${changeData.isPositive ? "text-red-600" : "text-blue-600"}`}
                 >
                   {changeData.percent}
                 </p>
@@ -191,13 +191,13 @@ export default function StockDetailPage() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <p className="text-sm text-gray-600">出来高</p>
-                <p className="text-lg font-mono">
+                <p className="font-mono text-lg">
                   {formatNumber(stock.volume)}
                 </p>
               </div>
               <div>
                 <p className="text-sm text-gray-600">時価総額</p>
-                <p className="text-lg font-mono">{stock.marketCap}</p>
+                <p className="font-mono text-lg">{stock.marketCap}</p>
               </div>
             </div>
             <Separator />
@@ -216,7 +216,7 @@ export default function StockDetailPage() {
           <CardTitle>メタデータ</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <div className="grid grid-cols-1 gap-4 text-sm md:grid-cols-2">
             <div>
               <p className="text-gray-600">作成日時</p>
               <p>{stock.createdAt.toLocaleString("ja-JP")}</p>
