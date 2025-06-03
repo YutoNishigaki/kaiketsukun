@@ -7,7 +7,7 @@ import { stockFormSchema, type StockForm } from "@/features/stock/schema";
 
 import { ROUTING_PATHS } from "@/constants/paths";
 import { SECTORS } from "@/features/stock/constants";
-import { createStock } from "@/features/stock/repositories";
+import { createStock, updateStock } from "@/features/stock/repositories";
 
 import { Button, Input } from "@/components/ui";
 import {
@@ -29,7 +29,7 @@ import {
 import { toast } from "sonner";
 
 type StockFormProps = {
-  stock?: StockForm;
+  stock?: StockForm & { id: string };
   mode: "create" | "edit";
 };
 
@@ -45,8 +45,25 @@ export default function StockForm({ stock, mode }: StockFormProps) {
 
   const onHandleSubmit = async (values: StockForm) => {
     try {
-      await createStock(values);
-      toast.success(`${mode === "create" ? "登録" : "更新"}が完了しました`);
+      switch (mode) {
+        case "create":
+          await createStock(values);
+          toast.success("登録が完了しました");
+
+          break;
+        case "edit":
+          if (!stock?.id) {
+            // 編集モードで銘柄IDが指定されないことはありえない
+            throw new Error("銘柄IDが指定されていません");
+          }
+
+          await updateStock(stock.id, values);
+          toast.success("更新が完了しました");
+
+          break;
+        default:
+          throw new Error("不正な操作");
+      }
     } catch {
       toast.error(`${mode === "create" ? "登録" : "更新"}に失敗しました`);
     }
