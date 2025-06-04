@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { stockFormSchema, type StockForm } from "@/features/stock/schema";
+import { Stock } from "@prisma/client";
 
 import { ROUTING_PATHS } from "@/constants/paths";
 import { SECTORS } from "@/features/stock/constants";
@@ -30,7 +31,7 @@ import {
 import { toast } from "sonner";
 
 type StockFormProps = {
-  stock?: StockForm & { id: string };
+  stock?: Stock;
   mode: "create" | "edit";
 };
 
@@ -58,13 +59,13 @@ export default function StockForm({ stock, mode }: StockFormProps) {
 
             break;
           case "edit":
-            if (!stock?.id) {
+            if (!stock?.stockId) {
               // 編集モードで銘柄IDが指定されないことはありえない
               throw new Error("銘柄IDが指定されていません");
             }
 
             const { stockName: updateStockName } = await updateStock(
-              stock.id,
+              stock.stockId,
               values,
             );
             toast.success(`銘柄：${updateStockName} を更新しました。`);
