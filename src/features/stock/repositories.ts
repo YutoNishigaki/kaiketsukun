@@ -46,7 +46,7 @@ export const createStock = async (values: StockForm) => {
   try {
     const userId = await getAuthenticatedUser();
 
-    await prisma.stock.create({
+    const result = await prisma.stock.create({
       data: {
         userId,
         stockCode: values.stockCode,
@@ -57,6 +57,7 @@ export const createStock = async (values: StockForm) => {
 
     // 表示を更新するためにキャッシュを再検証
     revalidatePath("/stock");
+    return result;
   } catch (error) {
     throw new Error("銘柄の登録に失敗しました: " + error);
   }
@@ -95,10 +96,11 @@ export const fetchStockById = async (stockId: string) => {
  * @param stockCode 銘柄コード
  * @param stockName 銘柄名
  * @param sector 業種
+ * @return 更新した銘柄情報
  */
 export const updateStock = async (stockId: string, values: StockForm) => {
   try {
-    await prisma.stock.update({
+    const result = await prisma.stock.update({
       where: {
         stockId,
       },
@@ -109,9 +111,39 @@ export const updateStock = async (stockId: string, values: StockForm) => {
       },
     });
 
+    if (!result) {
+      throw new Error("銘柄が見つかりません");
+    }
+
     // 表示を更新するためにキャッシュを再検証
     revalidatePath("/stock");
+    return result;
   } catch (error) {
     throw new Error("銘柄の更新に失敗しました: " + error);
+  }
+};
+
+/**
+ * IDに対応する銘柄を削除する
+ * @param stockId 銘柄ID
+ * @return 削除した銘柄情報
+ */
+export const deleteStock = async (stockId: string) => {
+  try {
+    const result = await prisma.stock.delete({
+      where: {
+        stockId,
+      },
+    });
+
+    if (!result) {
+      throw new Error("銘柄が見つかりません");
+    }
+
+    // 表示を更新するためにキャッシュを再検証
+    revalidatePath("/stock");
+    return result;
+  } catch (error) {
+    throw new Error("銘柄の削除に失敗しました: " + error);
   }
 };
