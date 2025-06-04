@@ -2,7 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+
+import { ROUTING_PATHS } from "@/constants/paths";
+import { deleteStock } from "@/features/stock/repositories";
+
+import { Button, Badge, ConfirmDialog } from "@/components/ui";
 import {
   Table,
   TableBody,
@@ -11,22 +15,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 import { ArrowUpDown, Plus, Edit, Trash2, Eye } from "lucide-react";
-import { getStocks, deleteStock, type Stock } from "@/store/stock";
-import { ROUTING_PATHS } from "@/constants/paths";
 
 type SortField =
   | "code"
@@ -46,8 +36,7 @@ type Props = {
   }[];
 };
 
-export function StockList(props: Props) {
-  const [, setStocks] = useState<Stock[]>([]);
+export function StockList({ stocks }: Props) {
   // const [searchTerm, setSearchTerm] = useState("");
   const [sortField, setSortField] = useState<SortField>("code");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
@@ -99,21 +88,13 @@ export function StockList(props: Props) {
     }
   };
 
-  const handleDelete = async (id: string, name: string) => {
+  const handleDelete = async (id: string) => {
     try {
-      const success = deleteStock(id);
-      if (success) {
-        setStocks(getStocks());
-        toast("削除完了", {
-          description: `${name}を削除しました。`,
-        });
-      } else {
-        toast("削除失敗", {
-          description: "銘柄の削除に失敗しました。",
-        });
-      }
+      const { stockName } = await deleteStock(id);
+
+      toast.success(`銘柄：${stockName} を削除しました。`);
     } catch {
-      toast("エラー", { description: "削除処理中にエラーが発生しました。" });
+      toast.error("削除に失敗しました。");
     }
   };
 
@@ -233,7 +214,7 @@ export function StockList(props: Props) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {props.stocks.map((stock) => {
+            {stocks.map((stock) => {
               // const changeData = formatChange(
               //   stock.change,
               //   stock.changePercent
@@ -280,35 +261,18 @@ export function StockList(props: Props) {
                           <Edit className="h-4 w-4" />
                         </Button>
                       </Link>
-                      <AlertDialog>
-                        <AlertDialogTrigger asChild>
+                      <ConfirmDialog
+                        triggerComponent={
                           <Button variant="ghost" size="sm">
                             <Trash2 className="h-4 w-4" />
                           </Button>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>
-                              銘柄を削除しますか？
-                            </AlertDialogTitle>
-                            <AlertDialogDescription>
-                              {stock.stockName} ({stock.stockCode})
-                              を削除します。この操作は取り消せません。
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>キャンセル</AlertDialogCancel>
-                            <AlertDialogAction
-                              onClick={() =>
-                                handleDelete(stock.stockId, stock.stockName)
-                              }
-                              className="bg-red-600 hover:bg-red-700"
-                            >
-                              削除
-                            </AlertDialogAction>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
+                        }
+                        title="銘柄を削除しますか？"
+                        description={`${stock.stockName} (${stock.stockCode})を削除します。この操作は取り消せません。`}
+                        positiveLabel="削除"
+                        positiveButtonVariant={"destructive"}
+                        positiveButtonAction={() => handleDelete(stock.stockId)}
+                      />
                     </div>
                   </TableCell>
                 </TableRow>

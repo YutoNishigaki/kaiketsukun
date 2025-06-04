@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef } from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,7 +10,7 @@ import { ROUTING_PATHS } from "@/constants/paths";
 import { SECTORS } from "@/features/stock/constants";
 import { createStock, updateStock } from "@/features/stock/repositories";
 
-import { Button, Input } from "@/components/ui";
+import { Button, SubmitButton, Input, ConfirmDialog } from "@/components/ui";
 import {
   Select,
   SelectContent,
@@ -34,6 +35,8 @@ type StockFormProps = {
 };
 
 export default function StockForm({ stock, mode }: StockFormProps) {
+  const formRef = useRef<HTMLFormElement>(null);
+
   const form = useForm<StockForm>({
     resolver: zodResolver(stockFormSchema),
     defaultValues: {
@@ -43,40 +46,44 @@ export default function StockForm({ stock, mode }: StockFormProps) {
     },
   });
 
-  const onHandleSubmit = async (values: StockForm) => {
-    try {
-      switch (mode) {
-        case "create":
-          await createStock(values);
-          toast.success("登録が完了しました");
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-          break;
-        case "edit":
-          if (!stock?.id) {
-            // 編集モードで銘柄IDが指定されないことはありえない
-            throw new Error("銘柄IDが指定されていません");
-          }
+    form.handleSubmit(async (values) => {
+      try {
+        switch (mode) {
+          case "create":
+            const { stockName: createStockName } = await createStock(values);
+            toast.success(`銘柄：${createStockName} を登録しました。`);
 
-          await updateStock(stock.id, values);
-          toast.success("更新が完了しました");
+            break;
+          case "edit":
+            if (!stock?.id) {
+              // 編集モードで銘柄IDが指定されないことはありえない
+              throw new Error("銘柄IDが指定されていません");
+            }
 
-          break;
-        default:
-          throw new Error("不正な操作");
+            const { stockName: updateStockName } = await updateStock(
+              stock.id,
+              values,
+            );
+            toast.success(`銘柄：${updateStockName} を更新しました。`);
+
+            break;
+          default:
+            throw new Error("不正な操作");
+        }
+      } catch {
+        toast.error(`${mode === "create" ? "登録" : "更新"}に失敗しました`);
       }
-    } catch {
-      toast.error(`${mode === "create" ? "登録" : "更新"}に失敗しました`);
-    }
+    })();
   };
 
   return (
     <Card className="mx-auto max-w-2xl">
       <CardContent>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onHandleSubmit)}
-            className="space-y-8"
-          >
+          <form ref={formRef} onSubmit={handleSubmit} className="space-y-8">
             <FormField
               control={form.control}
               name="stockCode"
@@ -131,9 +138,19 @@ export default function StockForm({ stock, mode }: StockFormProps) {
               )}
             />
             <div className="flex gap-4">
-              <Button type="submit">
-                {mode === "create" ? "登録" : "更新"}
-              </Button>
+              {mode === "create" && (
+                <SubmitButton type="submit" pendingText="登録中...">
+                  登録
+                </SubmitButton>
+              )}
+              {mode === "edit" && (
+                <ConfirmDialog
+                  triggerComponent={<Button type="button">更新</Button>}
+                  description="銘柄情報の更新をします。この操作は取り消せません。"
+                  positiveButtonType="submit"
+                  positiveButtonAction={() => formRef.current?.requestSubmit()}
+                />
+              )}
               <Link href={ROUTING_PATHS.stock.stock.root}>
                 <Button type="button" variant="outline">
                   キャンセル
