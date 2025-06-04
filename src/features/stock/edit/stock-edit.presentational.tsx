@@ -1,10 +1,10 @@
 "use client";
 
 import StockForm from "@/features/stock/stock-form.shared";
-import { type StockForm as StockFormType } from "@/features/stock/schema";
+import { Stock } from "@prisma/client";
 
 type StockEditProps = {
-  stock: StockFormType & { id: string };
+  stock: Stock;
 };
 
 export function StockEdit({ stock }: StockEditProps) {

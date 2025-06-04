@@ -8,5 +8,5 @@ type StockEditContainerProps = {
 export async function StockEditContainer({ id }: StockEditContainerProps) {
   const stock = await fetchStockById(id);
 
-  return <StockEdit stock={{ id, ...stock }} />;
+  return <StockEdit stock={stock} />;
 }

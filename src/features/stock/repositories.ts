@@ -1,10 +1,12 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 
 import { getAuthenticatedUser } from "@/helpers/get-authenticated-user";
 import { type StockForm } from "@/features/stock/schema";
+import { NotFoundError } from "@/constants/errors/NotFoundError";
 
 /**
  * ログイン中のユーザーの銘柄情報を取得する
@@ -70,23 +72,22 @@ export const createStock = async (values: StockForm) => {
 export const fetchStockById = async (stockId: string) => {
   try {
     const stock = await prisma.stock.findUnique({
-      select: {
-        stockCode: true,
-        stockName: true,
-        sector: true,
-      },
       where: {
         stockId,
       },
     });
 
     if (!stock) {
-      throw new Error("銘柄が見つかりません");
+      throw new NotFoundError();
     }
 
     return stock;
   } catch (error) {
-    throw new Error("銘柄情報の取得に失敗しました: " + error);
+    if (error instanceof NotFoundError) {
+      notFound();
+    } else {
+      throw new Error("銘柄情報の取得に失敗しました: " + error);
+    }
   }
 };
 
